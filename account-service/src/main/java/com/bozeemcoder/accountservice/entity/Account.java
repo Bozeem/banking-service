@@ -1,18 +1,34 @@
 package com.bozeemcoder.accountservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+import java.util.Set;
+
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 public class Account {
-    private String requestId;
-    private String accountNumber;
-    private String userId;
-    private Balance balance;
-    private Transaction transaction;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long accountId;
+
+    String accountNumber;
+    String account_type;
+
+    @ManyToOne
+    @JoinColumn(name = "customerId")
+    Customer customer;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    Balance balance;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Transaction> transactions;
 }

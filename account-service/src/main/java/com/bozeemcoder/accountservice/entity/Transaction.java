@@ -1,19 +1,22 @@
 package com.bozeemcoder.accountservice.entity;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 public class Transaction {
-    private String id;
-    private String fromAccountNumber;
-    private String toAccountNumber;
-    private BigDecimal amount;
-    private String type;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    Long transactionId;
+    String fromAccountNumber;
+    String toAccountNumber;
+    BigDecimal amount;
+    String type;
 }

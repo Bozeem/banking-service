@@ -1,8 +1,11 @@
 package com.bozeemcoder.accountservice.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import java.math.BigDecimal;
+
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -10,13 +13,17 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Balance {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long balanceId;
-    @OneToOne
-    @JoinColumn(name = "accountId")
-    Account account;
+    Long customerId;
 
-    BigDecimal amount;
+    String firstName;
+    String lastName;
+    String email;
+    String phoneNumber;
+    String address;
+
+    @OneToMany
+    Set<Account> accounts;
 }
