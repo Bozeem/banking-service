@@ -21,6 +21,7 @@ public class Account {
 
     String accountNumber;
     String account_type;
+    String account_status;
 
     @ManyToOne
     @JoinColumn(name = "customerId")
