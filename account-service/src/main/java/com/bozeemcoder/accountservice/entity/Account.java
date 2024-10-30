@@ -1,11 +1,11 @@
 package com.bozeemcoder.accountservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -16,10 +16,10 @@ import java.util.Set;
 @Entity
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long accountId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String accountId;
 
-    String accountNumber;
+    Long accountNumber;
     String account_type;
     String account_status;
 
@@ -27,9 +27,12 @@ public class Account {
     @JoinColumn(name = "customerId")
     Customer customer;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "account",fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     Balance balance;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Transaction> transactions;
+    @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Transaction> outgoingTransactions;
+    @OneToMany(mappedBy = "toAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Transaction> incomingTransactions;
 }

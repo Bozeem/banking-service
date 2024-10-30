@@ -14,9 +14,16 @@ import java.math.BigDecimal;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    Long transactionId;
-    String fromAccountNumber;
-    String toAccountNumber;
+    String transactionId;
+
+    @ManyToOne
+    @JoinColumn(name = "from_account_id", nullable = false)
+    Account fromAccount;
+
+    @ManyToOne
+    @JoinColumn(name = "to_account_id", nullable = false)
+    Account toAccount;
+
     BigDecimal amount;
     String type;
 }

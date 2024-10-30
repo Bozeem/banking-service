@@ -10,6 +10,7 @@
     </parent>
     <groupId>com.bozeemcoder</groupId>
     <artifactId>bangking-service</artifactId>
+
     <version>0.0.1-SNAPSHOT</version>
     <name>bangking-service</name>
     <description>bangking-service</description>

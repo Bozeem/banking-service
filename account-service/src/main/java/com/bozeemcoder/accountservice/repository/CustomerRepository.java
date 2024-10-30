@@ -1,4 +1,7 @@
 package com.bozeemcoder.accountservice.repository;
 
-public interface CustomerRepository {
+import com.bozeemcoder.accountservice.entity.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CustomerRepository extends JpaRepository<Customer, String> {
 }

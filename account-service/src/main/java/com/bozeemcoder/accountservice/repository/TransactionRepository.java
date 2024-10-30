@@ -1,4 +1,7 @@
 package com.bozeemcoder.accountservice.repository;
 
-public interface TransactionRepository {
+import com.bozeemcoder.accountservice.entity.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TransactionRepository extends JpaRepository<Transaction, String> {
 }

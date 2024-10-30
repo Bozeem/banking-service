@@ -15,8 +15,8 @@ import java.util.Set;
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long customerId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String customerId;
 
     String firstName;
     String lastName;
