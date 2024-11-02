@@ -1,4 +1,4 @@
-package com.bozeemcoder.accountservice.exception;
+package com.bozeemcoder.transactionservice.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ public enum ErrorCode {
     CUSTOMER_EXISTED(3, "Customer existed", HttpStatus.BAD_REQUEST),
     CUSTOMER_NOT_EXISTED(4, "Customer not  existed", HttpStatus.BAD_REQUEST),
     BALANCE_NOT_EXISTED(5, "Balance not  existed", HttpStatus.BAD_REQUEST),
-    UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
+    BALANCE_IS_NULL(6, "Insufficient funds in sender's account", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

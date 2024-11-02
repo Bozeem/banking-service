@@ -1,8 +1,11 @@
-package com.bozeemcoder.accountservice.entity;
+package com.bozeemcoder.transactionservice.entity;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -14,9 +17,7 @@ import java.util.List;
 @Entity
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     String accountId;
-
     Long accountNumber;
     String account_type;
     String account_status;

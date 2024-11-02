@@ -1,4 +1,4 @@
-package com.bozeemcoder.accountservice.dto.response;
+package com.bozeemcoder.transactionservice.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

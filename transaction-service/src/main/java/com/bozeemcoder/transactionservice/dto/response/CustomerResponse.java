@@ -1,28 +1,20 @@
-package com.bozeemcoder.accountservice.entity;
-
-import jakarta.persistence.*;
+package com.bozeemcoder.transactionservice.dto.response;
+import com.bozeemcoder.transactionservice.dto.response.AccountResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
-@Getter
-@Setter
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String customerId;
+public class CustomerResponse {
     String firstName;
     String lastName;
     String email;
     String phoneNumber;
     String address;
-
-    @OneToMany
-    Set<Account> accounts;
+    Set<AccountResponse> accounts;
 }

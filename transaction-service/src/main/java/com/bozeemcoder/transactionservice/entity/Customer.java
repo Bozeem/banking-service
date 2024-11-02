@@ -1,4 +1,4 @@
-package com.bozeemcoder.accountservice.entity;
+package com.bozeemcoder.transactionservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

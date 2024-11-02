@@ -4,7 +4,6 @@ import com.bozeemcoder.accountservice.dto.request.AccountCreateRequest;
 import com.bozeemcoder.accountservice.dto.request.AccountUpdateRequest;
 import com.bozeemcoder.accountservice.dto.response.AccountResponse;
 import com.bozeemcoder.accountservice.dto.response.ApiResponse;
-import com.bozeemcoder.accountservice.entity.Account;
 import com.bozeemcoder.accountservice.service.account.AccountService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -50,7 +49,7 @@ public class AccountController {
     @DeleteMapping("/account/delete/{accountId}")
     ApiResponse<String> deleteAccount(@PathVariable String accountId) {
         accountService.deleteAccount(accountId);
-        return ApiResponse.<String>builder().result("User has been deleted").build();
+        return ApiResponse.<String>builder().result("Account has been deleted").build();
     }
 
 }

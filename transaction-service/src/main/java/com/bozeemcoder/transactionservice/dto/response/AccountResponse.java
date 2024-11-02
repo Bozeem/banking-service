@@ -1,4 +1,6 @@
-package com.bozeemcoder.accountservice.dto.response;
+package com.bozeemcoder.transactionservice.dto.response;
+import com.bozeemcoder.transactionservice.dto.response.BalanceResponse;
+import com.bozeemcoder.transactionservice.dto.response.TransactionResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

@@ -1,4 +1,6 @@
-package com.bozeemcoder.accountservice.dto.response;
+package com.bozeemcoder.transactionservice.dto.request;
+
+import com.bozeemcoder.transactionservice.entity.Account;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,9 +11,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TransactionResponse {
-    AccountResponse fromAccount;
-    AccountResponse toAccount;
+public class TransactionCreateRequest {
+    Account fromAccount;
+    Account toAccount;
     BigDecimal amount;
     String type;
+
 }

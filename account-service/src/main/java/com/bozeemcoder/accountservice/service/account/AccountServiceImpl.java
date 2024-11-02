@@ -46,7 +46,6 @@ public class AccountServiceImpl implements AccountService {
     public AccountResponse createAccount(AccountCreateRequest request) {
         Account account = accountMapper.toAccount(request);
         Balance balance = new Balance(account, new BigDecimal("0"));
-        //balanceRepository.save(balance);
         account.setBalance(balance);
         return accountMapper.toAccountResponse(accountRepository.save(account));
     }
@@ -56,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new DomainException(ErrorCode.ACCOUNT_NOT_EXISTED));
         accountMapper.updateAccount(account, request);
-        return accountMapper.toAccountResponse(account);
+        return accountMapper.toAccountResponse(accountRepository.save(account));
     }
 
     @Override

@@ -1,6 +1,4 @@
 package com.bozeemcoder.accountservice.dto.request;
-
-import com.bozeemcoder.accountservice.entity.Balance;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

@@ -1,6 +1,4 @@
 package com.bozeemcoder.accountservice.dto.response;
-
-import com.bozeemcoder.accountservice.entity.Account;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
