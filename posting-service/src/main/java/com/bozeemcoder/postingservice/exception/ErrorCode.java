@@ -1,4 +1,4 @@
-package com.bozeemcoder.transactionservice.exception;
+package com.bozeemcoder.postingservice.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

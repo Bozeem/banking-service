@@ -67,8 +67,8 @@ public class TransactionServiceImpl implements TransactionService {
         Optional<Account> fromAccountOpt = accountRepository.findById(fromAccountId);
         Optional<Account> toAccountOpt = accountRepository.findById(toAccountId);
 
-        if (!fromAccountOpt.isPresent() || !toAccountOpt.isPresent()) {
-            throw new IllegalArgumentException("One or both accounts do not exist.");
+        if (fromAccountOpt.isEmpty() || toAccountOpt.isEmpty()) {
+            throw new DomainException(ErrorCode.ACCOUNT_NOT_EXISTED);
         }
 
         Account fromAccount = fromAccountOpt.get();
@@ -114,10 +114,6 @@ public class TransactionServiceImpl implements TransactionService {
         log.setMessage("Transaction created successfully");
         log.setTimestamp(LocalDateTime.now());
         rbTranHistLogRepository.save(log);
-    }
-    void mapAccount(Account accountREST) {
-        // Kiểm tra xem tài khoản đã tồn tại trong cơ sở dữ liệu chưa
-        AccountServiceImpl.exstingAccount(accountREST, accountRepository);
     }
 
 

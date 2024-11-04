@@ -4,6 +4,8 @@ import com.bozeemcoder.transactionservice.dto.response.AccountResponse;
 import com.bozeemcoder.transactionservice.dto.response.ApiResponse;
 import com.bozeemcoder.transactionservice.entity.Account;
 import com.bozeemcoder.transactionservice.entity.Balance;
+import com.bozeemcoder.transactionservice.exception.DomainException;
+import com.bozeemcoder.transactionservice.exception.ErrorCode;
 import com.bozeemcoder.transactionservice.repository.AccountRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +37,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void mapAccount(String accountId) {
         Account accountREST = retrieveAccount(accountId);
-        exstingAccount(accountREST, accountRepository);
+        existingAccount(accountREST, accountRepository);
     }
 
-    public static void exstingAccount(Account accountREST, AccountRepository accountRepository) {
+    public static void existingAccount(Account accountREST, AccountRepository accountRepository) {
         Account existingAccount = accountRepository.findByAccountId(accountREST.getAccountId());
         if (existingAccount != null) {
             // Nếu tài khoản đã tồn tại, cập nhật thông tin của nó
@@ -82,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
         ).getBody();
 
         if (response == null || response.getCode() != 0) {
-            throw new IllegalArgumentException("Failed to retrieve account information.");
+            throw new DomainException(ErrorCode.FAILED_TO_RETRIEVE);
         }
         return response.getResult();
     }

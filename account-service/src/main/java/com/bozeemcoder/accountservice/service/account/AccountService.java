@@ -1,13 +1,10 @@
 package com.bozeemcoder.accountservice.service.account;
-
-
 import com.bozeemcoder.accountservice.dto.request.AccountCreateRequest;
 import com.bozeemcoder.accountservice.dto.request.AccountUpdateRequest;
 import com.bozeemcoder.accountservice.dto.response.AccountResponse;
 
 
 import java.util.List;
-
 
 public interface AccountService {
     List<AccountResponse> getAccounts();

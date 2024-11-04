@@ -1,4 +1,4 @@
-package com.bozeemcoder.transactionservice.entity;
+package com.bozeemcoder.postingservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,8 +28,7 @@ public class Transaction {
     Account toAccount;
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     List<Posting> postings;
-    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
-    List<RbTranHistLog> rbTranHistLogs;
+
     BigDecimal amount;
     String type;
 }
