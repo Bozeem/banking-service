@@ -11,6 +11,8 @@ public enum ErrorCode {
     CUSTOMER_EXISTED(3, "Customer existed", HttpStatus.BAD_REQUEST),
     CUSTOMER_NOT_EXISTED(4, "Customer not  existed", HttpStatus.BAD_REQUEST),
     BALANCE_NOT_EXISTED(5, "Balance not  existed", HttpStatus.BAD_REQUEST),
+    CREATE_ACCOUNT_FAIL(6, "Create account fail", HttpStatus.INTERNAL_SERVER_ERROR),
+    UPDATE_ACCOUNT_FAIL(6, "Update account fail", HttpStatus.INTERNAL_SERVER_ERROR),
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 

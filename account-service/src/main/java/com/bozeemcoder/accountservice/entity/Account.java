@@ -3,6 +3,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -36,5 +38,11 @@ public class Account {
 
     public Account(String accountId) {
         this.accountId = accountId;
+    }
+
+    public Account initZeroBalance() {
+        var balance = new Balance(this, BigDecimal.ZERO);
+        this.setBalance(balance);
+        return this;
     }
 }

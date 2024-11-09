@@ -18,16 +18,23 @@ public class BalanceServiceImpl implements BalanceService {
     BalanceRepository balanceRepository;
     @Override
     public void incomeBalance(String balanceId, BigDecimal amount) {
-        Optional<Balance> optionalBalance = balanceRepository.findById(balanceId);
-        if (optionalBalance.isPresent()) {
-            Balance balance = optionalBalance.get();
-            // Cộng thêm vào amount hiện tại
-            balance.setAmount(balance.getAmount().add(amount));
-            // Lưu lại balance đã cập nhật
-            balanceRepository.save(balance);
-        } else {
-            throw new EntityNotFoundException("Balance không tìm thấy với ID: " + balanceId);
-        }
+//        Optional<Balance> optionalBalance = balanceRepository.findById(balanceId);
+//        if (optionalBalance.isPresent()) {
+//            Balance balance = optionalBalance.get();
+//            // Cộng thêm vào amount hiện tại
+//            balance.setAmount(balance.getAmount().add(amount));
+//            // Lưu lại balance đã cập nhật
+//            balanceRepository.save(balance);
+//        } else {
+//            throw new EntityNotFoundException("Balance không tìm thấy với ID: " + balanceId);
+//        }
+
+        Optional.ofNullable(balanceId)
+                .flatMap(balanceRepository::findById)
+                .ifPresentOrElse(balance -> {
+                    balance.setAmount(amount);
+                    balanceRepository.save(balance);
+                }, () -> new EntityNotFoundException("Balance không tìm thấy với ID: " + balanceId));
     }
 
     @Override

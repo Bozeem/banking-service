@@ -16,8 +16,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,24 +38,48 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse getAccountById(String accountId) {
-        Account account = accountRepository.findById(accountId).
-                orElseThrow(() -> new DomainException(ErrorCode.ACCOUNT_NOT_EXISTED));
-        return accountMapper.toAccountResponse(account);
+//        Account account = accountRepository.findById(accountId).
+//                orElseThrow(() -> new DomainException(ErrorCode.ACCOUNT_NOT_EXISTED));
+//        return accountMapper.toAccountResponse(account);
+
+        return Optional.ofNullable(accountId)
+                .flatMap(accountRepository::findById)
+                .map(accountMapper::toAccountResponse)
+                .orElseThrow(() -> new DomainException(ErrorCode.ACCOUNT_NOT_EXISTED));
+
     }
     @Override
     public AccountResponse createAccount(AccountCreateRequest request) {
-        Account account = accountMapper.toAccount(request);
-        Balance balance = new Balance(account, new BigDecimal("0"));
-        account.setBalance(balance);
-        return accountMapper.toAccountResponse(accountRepository.save(account));
+//        Account account = accountMapper.toAccount(request);
+//        Balance balance = new Balance(account, new BigDecimal("0"));
+//        account.setBalance(balance);
+//        return accountMapper.toAccountResponse(accountRepository.save(account));
+
+        return Optional.ofNullable(request)
+                .map(accountMapper::toAccount)
+                .map(Account::initZeroBalance)
+                .map(accountRepository::save)
+                .map(accountMapper::toAccountResponse)
+                .orElseThrow(() -> new DomainException(ErrorCode.CREATE_ACCOUNT_FAIL));
     }
 
     @Override
     public AccountResponse updateAccount(String accountId,AccountUpdateRequest request) {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new DomainException(ErrorCode.ACCOUNT_NOT_EXISTED));
-        accountMapper.updateAccount(account, request);
-        return accountMapper.toAccountResponse(accountRepository.save(account));
+//        Account account = accountRepository.findById(accountId)
+//                .orElseThrow(() -> new DomainException(ErrorCode.ACCOUNT_NOT_EXISTED));
+//        accountMapper.updateAccount(account, request);
+//        return accountMapper.toAccountResponse(accountRepository.save(account));
+
+
+        return Optional.ofNullable(accountId)
+                .flatMap(accountRepository::findById)
+                .map(account -> {
+                    accountMapper.updateAccount(account, request);
+                    return account;
+                })
+                .map(accountRepository::save)
+                .map(accountMapper::toAccountResponse)
+                .orElseThrow(() -> new DomainException(ErrorCode.UPDATE_ACCOUNT_FAIL));
     }
 
     @Override
