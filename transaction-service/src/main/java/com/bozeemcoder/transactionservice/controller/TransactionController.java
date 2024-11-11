@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +29,13 @@ public class TransactionController {
                 .result(transactionService.getTransaction())
                 .build();
     }
-    @PostMapping("/transaction/create")
+    @GetMapping("/transaction/read/{transactionId}")
+    ApiResponse<TransactionResponse> getAccount(@PathVariable("transactionId") String transactionId) {
+        return ApiResponse.<TransactionResponse>builder()
+                .result(transactionService.getTransactionById(transactionId))
+                .build();
+    }
+    @PostMapping(value="/transaction/create",consumes={MediaType.APPLICATION_JSON_UTF8_VALUE} )
     ApiResponse<TransactionResponse> createTransaction(@RequestBody @Valid TransactionCreateRequest request) {
         return ApiResponse.<TransactionResponse>builder()
                 .result(transactionService.createTransaction(request))

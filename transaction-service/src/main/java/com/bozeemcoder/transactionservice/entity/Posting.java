@@ -1,5 +1,6 @@
 package com.bozeemcoder.transactionservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+
 public class Posting {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

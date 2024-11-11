@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostingCreateRequest {
-    Transaction transaction;
+    String transactionId;
     String type;
     BigDecimal amount;
     LocalDateTime postingDate;

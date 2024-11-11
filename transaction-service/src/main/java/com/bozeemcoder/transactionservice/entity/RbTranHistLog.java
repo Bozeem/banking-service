@@ -1,5 +1,6 @@
 package com.bozeemcoder.transactionservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,6 +21,7 @@ public class RbTranHistLog {
 
     @ManyToOne
     @JoinColumn(name = "transaction_id", nullable = false)
+    @JsonIgnore
     Transaction transaction;
 
     String status;

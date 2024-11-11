@@ -16,5 +16,14 @@ public class KafkaApplication {
         // topic name, partition numbers, replication number
         return new NewTopic("transaction-service", 2, (short) 1);
     }
-
+    @Bean
+    NewTopic balanceUpdate1() {
+        // topic name, partition numbers, replication number
+        return new NewTopic("balance-subtract", 1, (short) 1);
+    }
+    @Bean
+    NewTopic balanceUpdate2() {
+        // topic name, partition numbers, replication number
+        return new NewTopic("balance-add", 1, (short) 1);
+    }
 }

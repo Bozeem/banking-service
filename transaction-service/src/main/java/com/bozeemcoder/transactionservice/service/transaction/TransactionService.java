@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TransactionService {
     List<TransactionResponse> getTransaction( );
-
+    TransactionResponse getTransactionById(String transactionId );
 
     TransactionResponse createTransaction(TransactionCreateRequest request);
 }
