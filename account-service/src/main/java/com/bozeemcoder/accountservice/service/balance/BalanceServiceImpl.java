@@ -1,6 +1,7 @@
 package com.bozeemcoder.accountservice.service.balance;
 import com.bozeemcoder.accountservice.entity.Balance;
 import com.bozeemcoder.accountservice.repository.BalanceRepository;
+import com.bozeemcoder.postingservice.dto.request.BalanceEvent;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Optional;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,43 +19,47 @@ import java.util.Optional;
 @Slf4j
 public class BalanceServiceImpl implements BalanceService {
     BalanceRepository balanceRepository;
-    @Override
-    public void incomeBalance(String balanceId, BigDecimal amount) {
-//        Optional<Balance> optionalBalance = balanceRepository.findById(balanceId);
-//        if (optionalBalance.isPresent()) {
-//            Balance balance = optionalBalance.get();
-//            // Cộng thêm vào amount hiện tại
-//            balance.setAmount(balance.getAmount().add(amount));
-//            // Lưu lại balance đã cập nhật
-//            balanceRepository.save(balance);
-//        } else {
-//            throw new EntityNotFoundException("Balance không tìm thấy với ID: " + balanceId);
-//        }
 
-        Optional.ofNullable(balanceId)
-                .flatMap(balanceRepository::findById)
-                .ifPresentOrElse(balance -> {
-                    balance.setAmount(amount);
-                    balanceRepository.save(balance);
-                }, () -> new EntityNotFoundException("Balance không tìm thấy với ID: " + balanceId));
+    @KafkaListener(topics = "balance-add", groupId = "account-service-group")
+    public void handleBalanceAddEvent(BalanceEvent event) {
+        log.info("Received balance-add event: {}", event);
+        incomeBalance(event.getBalanceId(), event.getAmount());
+    }
+
+    @KafkaListener(topics = "balance-subtract", groupId = "account-service-group")
+    public void handleBalanceSubtractEvent(BalanceEvent event) {
+        log.info("Received balance-subtract event: {}", event);
+        outcomeBalance(event.getBalanceId(), event.getAmount());
     }
 
     @Override
+    @Transactional
+    public void incomeBalance(String balanceId, BigDecimal amount) {
+        Optional<Balance> optionalBalance = balanceRepository.findById(balanceId);
+        if (optionalBalance.isPresent()) {
+            Balance balance = optionalBalance.get();
+            balance.setAmount(balance.getAmount().add(amount));
+            balanceRepository.save(balance);
+            log.info("Balance increased for ID {}: new amount {}", balanceId, balance.getAmount());
+        } else {
+            throw new EntityNotFoundException("Balance not found: " + balanceId);
+        }
+    }
+
+    @Override
+    @Transactional
     public void outcomeBalance(String balanceId, BigDecimal amount) {
         Optional<Balance> optionalBalance = balanceRepository.findById(balanceId);
         if (optionalBalance.isPresent()) {
             Balance balance = optionalBalance.get();
-            // Kiểm tra số dư đủ để trừ
-            if (balance.getAmount().compareTo(amount) >= 0) {
-                // Trừ đi từ amount hiện tại
-                balance.setAmount(balance.getAmount().subtract(amount));
-                // Lưu lại balance đã cập nhật
-                balanceRepository.save(balance);
-            } else {
-                throw new IllegalArgumentException("Số dư không đủ cho balance ID: " + balanceId);
+            if (balance.getAmount().compareTo(amount) < 0) {
+                throw new IllegalStateException("Insufficient balance");
             }
+            balance.setAmount(balance.getAmount().subtract(amount));
+            balanceRepository.save(balance);
+            log.info("Balance decreased for ID {}: new amount {}", balanceId, balance.getAmount());
         } else {
-            throw new EntityNotFoundException("Balance không tìm thấy với ID: " + balanceId);
+            throw new EntityNotFoundException("Balance not found: " + balanceId);
         }
     }
 }
